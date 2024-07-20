@@ -1,7 +1,7 @@
-// src/components/RockPaperScissors.js
 import React, { useState } from "react";
 import styled from "styled-components";
 
+// Styled components
 const Container = styled.div`
     text-align: center;
     padding: 20px;
@@ -23,20 +23,9 @@ const ResultText = styled.p`
     font-size: 18px;
 `;
 
-function RockPaperScissors() {
-    const [userChoice, setUserChoice] = useState(null);
-    const [computerChoice, setComputerChoice] = useState(null);
-    const [result, setResult] = useState("");
-
+// Choices component
+function Choices({ setUserChoice, setComputerChoice, setResult }) {
     const choices = ["rock", "paper", "scissors"];
-
-    const handleUserChoice = (choice) => {
-        setUserChoice(choice);
-        const computerChoice =
-            choices[Math.floor(Math.random() * choices.length)];
-        setComputerChoice(computerChoice);
-        determineWinner(choice, computerChoice);
-    };
 
     const determineWinner = (user, computer) => {
         if (user === computer) {
@@ -52,14 +41,39 @@ function RockPaperScissors() {
         }
     };
 
+    const handleUserChoice = (choice) => {
+        setUserChoice(choice);
+        const computerChoice =
+            choices[Math.floor(Math.random() * choices.length)];
+        setComputerChoice(computerChoice);
+        determineWinner(choice, computerChoice);
+    };
+
+    return (
+        <div>
+            <Button onClick={() => handleUserChoice("rock")}>Rock</Button>
+            <Button onClick={() => handleUserChoice("paper")}>Paper</Button>
+            <Button onClick={() => handleUserChoice("scissors")}>
+                Scissors
+            </Button>
+        </div>
+    );
+}
+
+// Main component
+function RockPaperScissors() {
+    const [userChoice, setUserChoice] = useState(null);
+    const [computerChoice, setComputerChoice] = useState(null);
+    const [result, setResult] = useState("");
+
     const renderChoiceImage = (choice) => {
         switch (choice) {
             case "rock":
-                return "...Rock";
+                return "Rock";
             case "paper":
-                return "...Ppaer";
+                return "Paper";
             case "scissors":
-                return "...Scissors";
+                return "Scissors";
             default:
                 return null;
         }
@@ -68,13 +82,11 @@ function RockPaperScissors() {
     return (
         <Container>
             <h1>Rock-Paper-Scissors</h1>
-            <div>
-                <Button onClick={() => handleUserChoice("rock")}>Rock</Button>
-                <Button onClick={() => handleUserChoice("paper")}>Paper</Button>
-                <Button onClick={() => handleUserChoice("scissors")}>
-                    Scissors
-                </Button>
-            </div>
+            <Choices
+                setUserChoice={setUserChoice}
+                setComputerChoice={setComputerChoice}
+                setResult={setResult}
+            />
             {userChoice && computerChoice && (
                 <div>
                     <div>

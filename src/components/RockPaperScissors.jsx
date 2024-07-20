@@ -4,7 +4,6 @@ import styled from "styled-components";
 // Styled components
 const Container = styled.div`
     text-align: center;
-    padding: 20px;
 `;
 
 const CountdownText = styled.p`
@@ -31,9 +30,15 @@ const Button = styled.button`
 `;
 
 const RestartButton = styled(Button)`
+    width: 150px;
     background-color: #4caf50; /* Green */
     color: white;
     margin-top: 20px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    margin: auto;
 
     &:hover {
         background-color: #45a049; /* Darker green on hover */
@@ -42,10 +47,10 @@ const RestartButton = styled(Button)`
 
 const GamePlayButtons = styled.div`
     width: 150px;
-    height: 150px; 
+    height: 150px;
     border-radius: 50%;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     position: fixed;
     bottom: 30px;
@@ -55,15 +60,15 @@ const GamePlayButtons = styled.div`
 `;
 
 const GamePlayButtonsButton = styled.div`
-    width: 60px; 
-    height: 60px; 
-    border-radius: 50%; 
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     background-color: #3498db;
-    color: white; 
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer; 
+    cursor: pointer;
     position: absolute;
     text-align: center;
     font-size: 14px;
@@ -108,6 +113,58 @@ function Choices({ onChoose }) {
                 Scissors
             </GamePlayButtonsButton>
         </GamePlayButtons>
+    );
+}
+
+const ResetsPage = styled.div`
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    & > div {
+        height: 33.33333333333333vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &:first-child {
+            align-items: center;
+            justify-content: flex-end; /* Changed from 'end' to 'flex-end' */
+        }
+
+        &:nth-child(3) {
+            align-items: center;
+            justify-content: flex-start; /* Changed from 'start' to 'flex-start' */
+        }
+    }
+`;
+
+
+// Results component for rendering game results
+function Results({ userChoice, computerChoice, result }) {
+    return (
+        userChoice &&
+        computerChoice && (
+            <ResetsPage>
+                <div>
+                    <h2>Your choice:</h2>
+                    <span>
+                        {userChoice.charAt(0).toUpperCase() +
+                            userChoice.slice(1)}
+                    </span>
+                </div>
+                 <ResultText>{result}</ResultText>
+                <div>
+                    <h2>Computer's choice:</h2>
+                    <span>
+                        {computerChoice.charAt(0).toUpperCase() +
+                            computerChoice.slice(1)}
+                    </span>
+                </div>
+               
+            </ResetsPage>
+        )
     );
 }
 
@@ -173,21 +230,11 @@ function RockPaperScissors() {
             {countdown === 0 && !result && (
                 <CountdownText>Fight!</CountdownText>
             )}
-            {userChoice && computerChoice && (
-                <div>
-                    <div>
-                        <h2>Your choice:</h2>
-                        {userChoice.charAt(0).toUpperCase() +
-                            userChoice.slice(1)}
-                    </div>
-                    <div>
-                        <h2>Computer's choice:</h2>
-                        {computerChoice.charAt(0).toUpperCase() +
-                            computerChoice.slice(1)}
-                    </div>
-                    <ResultText>{result}</ResultText>
-                </div>
-            )}
+            <Results
+                userChoice={userChoice}
+                computerChoice={computerChoice}
+                result={result}
+            />
             {result && (
                 <RestartButton onClick={handleRestart}>
                     Restart Game

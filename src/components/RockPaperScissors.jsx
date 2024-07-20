@@ -1,4 +1,27 @@
+// src/components/RockPaperScissors.js
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const Container = styled.div`
+    text-align: center;
+    padding: 20px;
+`;
+
+const Button = styled.button`
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+`;
+
+const Image = styled.img`
+    width: 100px;
+    margin: 10px;
+`;
+
+const ResultText = styled.p`
+    font-size: 18px;
+`;
 
 function RockPaperScissors() {
     const [userChoice, setUserChoice] = useState(null);
@@ -29,24 +52,43 @@ function RockPaperScissors() {
         }
     };
 
+    const renderChoiceImage = (choice) => {
+        switch (choice) {
+            case "rock":
+                return "...Rock";
+            case "paper":
+                return "...Ppaer";
+            case "scissors":
+                return "...Scissors";
+            default:
+                return null;
+        }
+    };
+
     return (
-        <div>
+        <Container>
             <h1>Rock-Paper-Scissors</h1>
             <div>
-                <button onClick={() => handleUserChoice("rock")}>Rock</button>
-                <button onClick={() => handleUserChoice("paper")}>Paper</button>
-                <button onClick={() => handleUserChoice("scissors")}>
+                <Button onClick={() => handleUserChoice("rock")}>Rock</Button>
+                <Button onClick={() => handleUserChoice("paper")}>Paper</Button>
+                <Button onClick={() => handleUserChoice("scissors")}>
                     Scissors
-                </button>
+                </Button>
             </div>
             {userChoice && computerChoice && (
                 <div>
-                    <p>Your choice: {userChoice}</p>
-                    <p>Computer's choice: {computerChoice}</p>
-                    <p>{result}</p>
+                    <div>
+                        <h2>Your choice:</h2>
+                        {renderChoiceImage(userChoice)}
+                    </div>
+                    <div>
+                        <h2>Computer's choice:</h2>
+                        {renderChoiceImage(computerChoice)}
+                    </div>
+                    <ResultText>{result}</ResultText>
                 </div>
             )}
-        </div>
+        </Container>
     );
 }
 

@@ -23,6 +23,11 @@ const ResultText = styled.p`
     font-size: 18px;
 `;
 
+const RestartButton = styled(Button)`
+    background-color: #4caf50; /* Green */
+    color: white;
+`;
+
 // Choices component for rendering game buttons and handling user choices
 function Choices({ onChoose }) {
     return (
@@ -79,14 +84,24 @@ function RockPaperScissors() {
         }
     };
 
+    // Resets the game state
+    const handleRestart = () => {
+        setUserChoice(null);
+        setComputerChoice(null);
+        setResult("");
+        setCountdown(null);
+    };
+
     return (
         <Container>
             <h1>Rock-Paper-Scissors</h1>
-            {!userChoice && !countdown && (
+            {!userChoice && !countdown && !result && (
                 <Choices onChoose={handleUserChoice} />
             )}
             {countdown > 0 && <CountdownText>{countdown}</CountdownText>}
-            {countdown === 0 && <CountdownText>Fight!</CountdownText>}
+            {countdown === 0 && !result && (
+                <CountdownText>Fight!</CountdownText>
+            )}
             {userChoice && computerChoice && (
                 <div>
                     <div>
@@ -101,6 +116,11 @@ function RockPaperScissors() {
                     </div>
                     <ResultText>{result}</ResultText>
                 </div>
+            )}
+            {result && (
+                <RestartButton onClick={handleRestart}>
+                    Restart Game
+                </RestartButton>
             )}
         </Container>
     );

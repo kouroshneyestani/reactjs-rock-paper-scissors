@@ -7,13 +7,6 @@ const Container = styled.div`
     padding: 20px;
 `;
 
-const Button = styled.button`
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-`;
-
 const CountdownText = styled.p`
     font-size: 24px;
     font-weight: bold;
@@ -23,19 +16,98 @@ const ResultText = styled.p`
     font-size: 18px;
 `;
 
+const Button = styled.button`
+    color: blue;
+    cursor: pointer; /* Pointer cursor to indicate clickable button */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+        background-color: lightblue; /* Optional: hover effect */
+    }
+`;
+
 const RestartButton = styled(Button)`
     background-color: #4caf50; /* Green */
     color: white;
+    margin-top: 20px;
+
+    &:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+`;
+
+const GamePlayButtons = styled.div`
+    width: 150px;
+    height: 150px; 
+    border-radius: 50%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    position: fixed;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+`;
+
+const GamePlayButtonsButton = styled.div`
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    background-color: #3498db;
+    color: white; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; 
+    position: absolute;
+    text-align: center;
+    font-size: 14px;
+    user-select: none;
+
+    &:hover {
+        background-color: #2980b9; /* Darker blue on hover */
+    }
 `;
 
 // Choices component for rendering game buttons and handling user choices
 function Choices({ onChoose }) {
+    // Rotate and position each child
+    const getTransform = (index) => {
+        const angle = 120 * index;
+        return `
+            rotate(${angle}deg) translateX(45px) rotate(-${angle}deg)
+        `;
+    };
+
     return (
-        <div>
-            <Button onClick={() => onChoose("rock")}>Rock</Button>
-            <Button onClick={() => onChoose("paper")}>Paper</Button>
-            <Button onClick={() => onChoose("scissors")}>Scissors</Button>
-        </div>
+        <GamePlayButtons>
+            <GamePlayButtonsButton
+                onClick={() => onChoose("rock")}
+                style={{ transform: getTransform(0) }}
+                aria-label="Rock"
+            >
+                Rock
+            </GamePlayButtonsButton>
+            <GamePlayButtonsButton
+                onClick={() => onChoose("paper")}
+                style={{ transform: getTransform(1) }}
+                aria-label="Paper"
+            >
+                Paper
+            </GamePlayButtonsButton>
+            <GamePlayButtonsButton
+                onClick={() => onChoose("scissors")}
+                style={{ transform: getTransform(2) }}
+                aria-label="Scissors"
+            >
+                Scissors
+            </GamePlayButtonsButton>
+        </GamePlayButtons>
     );
 }
 
@@ -94,7 +166,6 @@ function RockPaperScissors() {
 
     return (
         <Container>
-            <h1>Rock-Paper-Scissors</h1>
             {!userChoice && !countdown && !result && (
                 <Choices onChoose={handleUserChoice} />
             )}

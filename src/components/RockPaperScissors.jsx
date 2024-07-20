@@ -23,10 +23,11 @@ const ResultText = styled.p`
     font-size: 18px;
 `;
 
-// Choices component
+// Choices component for rendering game buttons and handling user choices
 function Choices({ setUserChoice, setComputerChoice, setResult }) {
     const choices = ["rock", "paper", "scissors"];
 
+    // Determines the winner based on user and computer choices
     const determineWinner = (user, computer) => {
         if (user === computer) {
             setResult("It's a tie!");
@@ -41,6 +42,7 @@ function Choices({ setUserChoice, setComputerChoice, setResult }) {
         }
     };
 
+    // Handles user choice, generates a random computer choice, and determines the winner
     const handleUserChoice = (choice) => {
         setUserChoice(choice);
         const computerChoice =
@@ -60,12 +62,13 @@ function Choices({ setUserChoice, setComputerChoice, setResult }) {
     );
 }
 
-// Main component
+// Main component for the Rock-Paper-Scissors game
 function RockPaperScissors() {
     const [userChoice, setUserChoice] = useState(null);
     const [computerChoice, setComputerChoice] = useState(null);
     const [result, setResult] = useState("");
 
+    // Renders the choice image based on the selected choice
     const renderChoiceImage = (choice) => {
         switch (choice) {
             case "rock":
